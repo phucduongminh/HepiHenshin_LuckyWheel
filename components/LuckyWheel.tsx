@@ -79,25 +79,26 @@ const LuckyWheel: React.FC<LuckyWheelProps> = ({ prizes, onSpinComplete, theme }
   }, [prizes, segmentAngle, theme]);
 
   return (
-    <section className="relative w-full max-w-[580px] mx-auto px-4 py-12 md:py-20 flex justify-center items-center">
-      {/* Container to enforce square aspect and relative anchoring */}
-      <div className="relative aspect-square w-full max-w-[500px]">
+    <div className="relative w-full max-w-[500px] flex justify-center items-center">
+      {/* Outer container to enforce square aspect and perfectly contain decorative elements */}
+      <div className="relative aspect-square w-full">
         
-        {/* Outer Decorative Rim - Anchored to edges */}
-        <div className="absolute inset-[-18px] rounded-full border-[20px] border-[#1a0404] wheel-shadow z-0 shadow-2xl">
+        {/* Outer Decorative Rim - Using percentage based offsets to prevent mobile overflow */}
+        <div className="absolute inset-[-4%] rounded-full border-[10px] md:border-[20px] border-[#1a0404] wheel-shadow z-0 shadow-2xl">
            {/* Perimeter "LED" Lights - Precisely Centered */}
            {[...Array(24)].map((_, i) => (
              <div 
                key={i} 
-               className="absolute w-2.5 h-2.5 rounded-full"
+               className="absolute w-1.5 h-1.5 md:w-2.5 md:h-2.5 rounded-full"
                style={{ 
                  backgroundColor: i % 2 === 0 ? theme.secondary : '#FFF',
                  transform: `rotate(${i * (360/24)}deg) translateY(-48.5%)`,
                  boxShadow: `0 0 12px ${i % 2 === 0 ? theme.secondary : '#FFF'}`,
                  top: '50%',
                  left: '50%',
-                 marginLeft: '-5px',
-                 marginTop: '-5px'
+                 marginLeft: '-0.75px',
+                 marginTop: '-0.75px',
+                 transformOrigin: 'center'
                }}
              />
            ))}
@@ -105,7 +106,7 @@ const LuckyWheel: React.FC<LuckyWheelProps> = ({ prizes, onSpinComplete, theme }
         
         {/* Pointer - Top Center of the wheel */}
         <div className={`absolute top-0 left-1/2 -translate-x-1/2 -translate-y-[45%] z-50 transition-transform origin-bottom ${isSpinning ? 'pointer-active' : ''}`}>
-          <svg width="70" height="85" viewBox="0 0 60 70">
+          <svg width="50" height="60" md-width="70" md-height="85" viewBox="0 0 60 70" className="w-[50px] md:w-[70px]">
             <defs>
               <filter id="pointerShadow" x="-30%" y="-30%" width="160%" height="160%">
                 <feGaussianBlur in="SourceAlpha" stdDeviation="2.5" />
@@ -116,7 +117,6 @@ const LuckyWheel: React.FC<LuckyWheelProps> = ({ prizes, onSpinComplete, theme }
             </defs>
             <path d="M30 70 L5 5 L55 5 Z" fill={theme.pointerColor} filter="url(#pointerShadow)" />
             <circle cx="30" cy="22" r="9" fill="white" opacity="0.45" />
-            <path d="M30 65 L20 15 L40 15 Z" fill="white" opacity="0.25" />
           </svg>
         </div>
 
@@ -137,14 +137,14 @@ const LuckyWheel: React.FC<LuckyWheelProps> = ({ prizes, onSpinComplete, theme }
           </svg>
         </div>
 
-        {/* Center Spin Button - Explicitly flex-centered for perfect axis alignment */}
+        {/* Center Spin Button - Centered using grid for absolute stability */}
         <div className="absolute inset-0 flex items-center justify-center z-40 pointer-events-none">
            <div className="pointer-events-auto">
              <SpinButton onClick={handleSpin} isSpinning={isSpinning} theme={theme} />
            </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
