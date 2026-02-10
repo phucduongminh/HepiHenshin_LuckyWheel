@@ -53,7 +53,7 @@ const EventHeader: React.FC<EventHeaderProps> = ({ theme }) => {
         <div className="mt-8 flex justify-center items-center space-x-6">
           <div className="h-0.5 w-12 md:w-32 bg-gradient-to-r from-transparent via-amber-500/50 to-amber-500"></div>
           <div className="flex flex-col items-center">
-            <span className="text-amber-500 text-3xl animate-pulse">🐎</span>
+            <span className="text-amber-500 text-6xl animate-pulse">🐎</span>
             <span className="text-[10px] text-amber-500/70 font-bold tracking-[0.4em] mt-1">BÍNH NGỌ 2026</span>
           </div>
           <div className="h-0.5 w-12 md:w-32 bg-gradient-to-l from-transparent via-amber-500/50 to-amber-500"></div>

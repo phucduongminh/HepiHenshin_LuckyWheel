@@ -96,7 +96,7 @@ const App: React.FC = () => {
             <div className="w-9 h-9 md:w-10 md:h-10 bg-gradient-to-br from-amber-400 to-red-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition duration-300">
               <span className="text-lg md:text-xl">🧧</span>
             </div>
-            <span className="text-lg md:text-xl font-black font-festive tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-200">HEPIHENSHIN 2026</span>
+            <span className="text-lg md:text-xl font-black font-festive tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-200">HepiHenshin 2026</span>
           </div>
 
           {/* Desktop Nav */}
