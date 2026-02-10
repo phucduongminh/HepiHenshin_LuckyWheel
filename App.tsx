@@ -10,23 +10,37 @@ import EventHeader from './components/EventHeader';
 import PrizeModal from './components/PrizeModal';
 
 const App: React.FC = () => {
-  const [currentPath, setCurrentPath] = useState<string>(window.location.hash || '#/lucky-wheel');
+  const getHash = () =>
+  window.location.hash.startsWith('#/')
+    ? window.location.hash
+    : '#/lucky-wheel';
+
+  const [currentPath, setCurrentPath] = useState<string>(getHash());
   const [theme] = useState<ThemeConfig>(THEMES.tet);
-  const [prizes, setPrizes] = useState<Prize[]>(prizeService.getPrizes());
-  const [history, setHistory] = useState<SpinRecord[]>(prizeService.getSpinHistory());
+  const [prizes, setPrizes] = useState<Prize[]>([]);
+  const [history, setHistory] = useState<SpinRecord[]>([]);
+  const [loading, setLoading] = useState(true);
   const [showResultModal, setShowResultModal] = useState(false);
   const [lastResult, setLastResult] = useState<SpinResult | null>(null);
 
   useEffect(() => {
-    const handleHashChange = () => setCurrentPath(window.location.hash || '#/lucky-wheel');
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
+  (async () => {
+    try {
+      setLoading(true);
+      const p = await prizeService.getPrizes();
+      const h = await prizeService.getSpinHistory();
+      setPrizes(Array.isArray(p) ? p : []);
+      setHistory(Array.isArray(h) ? h : []);
+    } finally {
+      setLoading(false);
+    }
+  })();
+}, []);
 
-  const refreshData = () => {
-    setPrizes(prizeService.getPrizes());
-    setHistory(prizeService.getSpinHistory());
-  };
+const refreshData = async () => {
+  setPrizes(await prizeService.getPrizes());
+  setHistory(await prizeService.getSpinHistory());
+};
 
   const handleSpinComplete = (result: SpinResult) => {
     setLastResult(result);
@@ -34,7 +48,26 @@ const App: React.FC = () => {
     refreshData();
   };
 
+  useEffect(() => {
+  const handleHashChange = () => setCurrentPath(getHash());
+  window.addEventListener('hashchange', handleHashChange);
+  return () => window.removeEventListener('hashchange', handleHashChange);
+}, []);
+useEffect(() => {
+  console.log('PATH:', currentPath);
+  console.log('PRIZES:', prizes);
+  console.log('HISTORY:', history);
+}, [currentPath, prizes, history]);
+
   const renderContent = () => {
+    if (loading) {
+  return (
+    <div className="h-[60vh] flex items-center justify-center text-slate-400">
+      Đang tải dữ liệu...
+    </div>
+  );
+}
+
     switch (currentPath) {
       case '#/admin':
         return <div className="px-4 sm:px-6"><AdminDashboard prizes={prizes} onUpdate={refreshData} /></div>;
