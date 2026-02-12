@@ -27,10 +27,9 @@ class PrizeService {
 
   /* ========= SPIN ========= */
 
-  async spin(userId: string, ip: string): Promise<SpinResult> {
+  async spin(userId: string): Promise<SpinResult> {
     const res = await axios.post(`${API_BASE}/spin`, {
       userId,
-      ip,
     });
     return res.data.data ?? res.data;
   }
@@ -39,6 +38,13 @@ class PrizeService {
     const res = await axios.get(`${API_BASE}/spin/history`);
     return res.data.data ?? res.data;
   }
+  async getUserSpinHistory(userId: string): Promise<SpinRecord[]> {
+  const res = await axios.post(`${API_BASE}/spin/history`, {
+    userId,
+  });
+
+  return res.data.data ?? res.data;
+}
 }
 
 export const prizeService = new PrizeService();

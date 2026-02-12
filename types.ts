@@ -26,11 +26,17 @@ export interface ThemeConfig {
 
 export interface SpinRecord {
   id: string;
-  prizeId: string | null;
-  prizeName: string;
-  timestamp: number;
-  ip: string;
-  userId: string;
+  user: {
+    id: string;
+    email?: string;
+  };
+  prize: {
+    id: string;
+    name: string;
+    imageUrl?: string;
+  } | null;
+  createdAt: string;
+  verified: boolean;
 }
 
 export interface SpinResult {
