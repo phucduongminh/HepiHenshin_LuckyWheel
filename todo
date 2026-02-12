@@ -1,0 +1,8 @@
+1,
+BE trả thêm field:
+
+category: "POINT" | "ITEM"
+
+2,
+Hết prize. hết vật phẩm thì chuyển qua point. hết cả thì thôi đành ))
+số lượng = 0 thì set inactive
