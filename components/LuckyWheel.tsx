@@ -2,6 +2,7 @@ import React, { useState, useRef, useMemo } from 'react';
 import { Prize, SpinResult, ThemeConfig } from '../types';
 import { prizeService } from '../services/prizeService';
 import SpinButton from './SpinButton';
+import { useGameAuth } from '@/hooks/useGameAuth';
 
 interface LuckyWheelProps {
   prizes: Prize[];
@@ -13,6 +14,7 @@ const LuckyWheel: React.FC<LuckyWheelProps> = ({ prizes, onSpinComplete, theme }
   const [isSpinning, setIsSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
   const wheelRef = useRef<HTMLDivElement>(null);
+  const { user } = useGameAuth();
 
   // Số lượng ô cố định là 6 theo UI hiện tại của bạn
   const segmentCount = 6;
@@ -36,7 +38,7 @@ const LuckyWheel: React.FC<LuckyWheelProps> = ({ prizes, onSpinComplete, theme }
     try {
       setIsSpinning(true);
 
-      const result = await prizeService.spin('879f16ca-b68d-4aed-91b1-4049cf291e1d');
+      const result = await prizeService.spin(user.userId);
 
       if ((result as any).error === 'LIMIT_REACHED') {
         alert((result as any).message);
@@ -77,7 +79,7 @@ const LuckyWheel: React.FC<LuckyWheelProps> = ({ prizes, onSpinComplete, theme }
       }, 5000);
 
     } catch (error) {
-      alert('Spin failed, please try again');
+      alert('Quay thất bại, bạn đã hết lượt quay, vui lòng thử lại sau!.');
       console.log('Spin error:', error);
       setIsSpinning(false);
     }
