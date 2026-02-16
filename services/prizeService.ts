@@ -1,7 +1,7 @@
-import axios from 'axios';
-import { Prize, SpinRecord, SpinResult } from '../types';
+import axios from "axios";
+import { Prize, SpinRecord, SpinResult } from "../types";
 
-const API_BASE = 'http://localhost:4000';
+const API_BASE = (import.meta as any).env.VITE_API_BASE_URL;
 
 class PrizeService {
   /* ========= PRIZE ========= */
@@ -11,7 +11,7 @@ class PrizeService {
     return res.data.data ?? res.data; // ✅ FIX
   }
 
-  async createPrize(payload: Omit<Prize, 'id'>) {
+  async createPrize(payload: Omit<Prize, "id">) {
     const res = await axios.post(`${API_BASE}/prizes`, payload);
     return res.data.data ?? res.data;
   }
@@ -38,13 +38,14 @@ class PrizeService {
     const res = await axios.get(`${API_BASE}/spin/history`);
     return res.data.data ?? res.data;
   }
-  async getUserSpinHistory(userId: string): Promise<SpinRecord[]> {
-  const res = await axios.post(`${API_BASE}/spin/history`, {
-    userId,
-  });
 
-  return res.data.data ?? res.data;
-}
+  async getUserSpinHistory(userId: string): Promise<SpinRecord[]> {
+    const res = await axios.get(`${API_BASE}/spin/history`, {
+      params: { userId },
+    });
+
+    return res.data.data ?? res.data;
+  }
 }
 
 export const prizeService = new PrizeService();

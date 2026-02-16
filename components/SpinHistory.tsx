@@ -12,11 +12,11 @@ const SpinHistory: React.FC<SpinHistoryProps> = ({ history }) => {
         <div>
           <h1 className="text-3xl font-bold font-heading">Recent Winners</h1>
           <p className="text-slate-400">
-            Total verified spins: {history.length}
+            Số lượt quay thành công: {history.length}
           </p>
         </div>
         <div className="hidden sm:block bg-indigo-500/10 text-indigo-400 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest border border-indigo-500/20">
-          Live Feed
+          Kết quả được cập nhật sau mỗi lần quay, chỉ hiển thị những lượt quay đã được xác nhận bởi hệ thống.
         </div>
       </div>
 
@@ -25,10 +25,10 @@ const SpinHistory: React.FC<SpinHistoryProps> = ({ history }) => {
           <table className="w-full text-left min-w-[600px]">
             <thead>
               <tr className="bg-white/5 text-slate-400 text-xs font-bold uppercase tracking-wider">
-                <th className="px-6 py-4">Winner ID</th>
-                <th className="px-6 py-4">Prize</th>
-                <th className="px-6 py-4">Time</th>
-                <th className="px-6 py-4">Status</th>
+                <th className="px-6 py-4">Tên người dùng</th>
+                <th className="px-6 py-4">Gỉai thưởng</th>
+                <th className="px-6 py-4">Thời gian</th>
+                <th className="px-6 py-4">Trạng thái</th>
               </tr>
             </thead>
 
@@ -39,7 +39,7 @@ const SpinHistory: React.FC<SpinHistoryProps> = ({ history }) => {
                     colSpan={4}
                     className="px-6 py-10 text-center text-slate-500 italic"
                   >
-                    No spins yet. Be the first!
+                    Chưa có kết quả, hãy là người đầu tiên mở bát ^^
                   </td>
                 </tr>
               ) : (
@@ -68,7 +68,7 @@ const SpinHistory: React.FC<SpinHistoryProps> = ({ history }) => {
                         <div className="flex items-center space-x-3">
                           <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-slate-700 to-slate-600 border border-white/10"></div>
                           <span className="font-mono text-sm">
-                            USER-{userId.slice(-4)}
+                            {record.userName ?? `User#${userId.slice(-4)}`}
                           </span>
                         </div>
                       </td>
@@ -93,7 +93,7 @@ const SpinHistory: React.FC<SpinHistoryProps> = ({ history }) => {
 
                       <td className="px-6 py-4">
                         <span className="px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-bold border border-emerald-500/20 uppercase">
-                          Verified
+                          Xác nhận
                         </span>
                       </td>
                     </tr>
